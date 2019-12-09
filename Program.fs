@@ -176,42 +176,150 @@ module part2_num7 =
     allnum 3 2
 
 //Реализация математической функции. Ввод данных осуществляет пользователь. Функция вычисляется лениво.
-//module part3_num7 = 
-//    let f (x, y) = exp(sqrt(log((x**2. + y**2.)/((cos x)**2. + cos(x**2.)))))
-//    let mutable x = ""
-//    let mutable y = ""
-//    printfn "Enter a number of X:"
-//    let r =
-//        try
-//            x <- System.Console.ReadLine();
-//            Some (float(x))
-//        with
-//            | :? System.FormatException -> printfn "Invalid number!"
-//                                           None
-//    if r.IsSome then
-//        printfn "Enter a number of Y:"
-//        let t =
-//            try
-//                y <- System.Console.ReadLine();
-//                Some (float(y))
-//            with
-//                | :? System.FormatException -> printfn "Invalid number!"
-//                                               None
-//        if t.IsSome then
-//            let result = lazy (f (float(x), float(y)))
-//            Console.WriteLine ("{0:0.##}", result.Force())
+(* module part3_num7 = 
+    let f (x, y) = exp(sqrt(log((x**2. + y**2.)/((cos x)**2. + cos(x**2.)))))
+    let mutable x = ""
+    let mutable y = ""
+    printfn "Enter a number of X:"
+    let r =
+        try
+            x <- System.Console.ReadLine();
+            Some (float(x))
+        with
+            | :? System.FormatException -> printfn "Invalid number!"
+                                           None
+    if r.IsSome then
+        printfn "Enter a number of Y:"
+        let t =
+            try
+                y <- System.Console.ReadLine();
+                Some (float(y))
+            with
+                | :? System.FormatException -> printfn "Invalid number!"
+                                               None
+        if t.IsSome then
+            let result = lazy (f (float(x), float(y)))
+            Console.WriteLine ("{0:0.##}", result.Force()) *) 
 
 
 (*Дано трехзначное целое число 𝑋. Все цифры должны быть отличны от нуля. Вывести новое трехзначное число 𝑌,
 каждая цифра которого является остатком от деления суммы всех цифр числа 𝑋 на соответствующую цифру числа 𝑋. 
 Например, 𝑋 = 256, тогда 𝑌 = 131 *)
-module part4_num7 =
+(* module part4_num7 =
     Console.WriteLine ("Введите трехзначное число: ")
     let mutable x = ""
     x <- Console.ReadLine()
     let sum = List.sum [int(x) / 100; (int(x) / 10) % 10; int(x) % 10]
-    Console.WriteLine ((sum % (int(x) / 100)) * 100 + (sum % (int(x) / 10) % 10) * 10 + sum % (int(x) % 10))
+    Console.WriteLine ((sum % (int(x) / 100)) * 100 + (sum % (int(x) / 10) % 10) * 10 + sum % (int(x) % 10)) *)
 
+
+(*Создайте отдельные функции, вычисляющие логические операции:
+1.	Следование
+2.	Исключающее или
+3.	Равнозначность
+4.	Коньюнкция
+5.	Дизьюнкция
+6.	Отрицание
+Создайте таблицы истинности (вариант 7)*)
+//module part5_num7 = 
+//    let printtruthtable f =
+//        printfn " | true | false |"
+//        printfn " +-------+-------+"
+//        printfn " true | %5b | %5b |" (f true true) (f true false)
+//        printfn " false | %5b | %5b |" (f false true) (f false false)
+//        printfn " +-------+-------+"
+//        printfn ""
+//        ()
+//
+//    //конъюнкция
+//    let (*) x y =
+//        match x, y with
+//        | true, true -> true
+//        | _, _ -> false
+//    //дизюнкция
+//    let (+) x y =
+//        match x, y with
+//        | false, false -> false
+//        | _, _ -> true
+//    //следование, импликация
+//    let (--) x y =
+//        match x, y with
+//        | true, false -> false
+//        | _, _ -> true
+//    //равнозначность, эквивалентность
+//    let (==) x y =
+//        match x, y with
+//        | false, false -> true
+//        | true, true -> true
+//        | _, _ -> false
+//    //исключающее или
+//    let (!*) x y =
+//        match x, y with
+//        | false, true -> true
+//        | true, false -> true
+//        | _, _ -> false 
+//    //отрицание
+//    let (!) x =
+//        match x with
+//        | true -> false
+//        | false -> true 
+//
+//(*printtruthtable (*)
+//printtruthtable (+)
+//printtruthtable (--)
+//printtruthtable (==)
+//printtruthtable (!*)
+//
+//    let l x y z =
+//        x -- (((y * z) == (!x)) + y)
+//
+//    let truthtable f =
+//        printfn " +-----------+-----------+"
+//        printfn " false | false | false | %5b |" (f false false false)
+//        printfn " false | false | true | %5b |" (f false false true)
+//        printfn " false | true | false | %5b |" (f false true false)
+//        printfn " false | true | true | %5b |" (f false true true)
+//        printfn " true | false | false | %5b |" (f true false false)
+//        printfn " true | false | true | %5b |" (f true false true)
+//        printfn " true | true | false | %5b |" (f true true false)
+//        printfn " true | true | true | %5b |" (f true true true)
+//        printfn " +-----------+-----------+"
+//        printfn ""
+//        ()
+//
+//    truthtable (l) 
+
+//Преобразования единиц измерения (в обе стороны) - 7.	Фут/миллиметр
+module part6_num7 = 
+    [<Measure>] type ft
+    [<Measure>] type mm
+    let ft2mm (d:float<ft>) = d * 304.8<mm/ft>
+    let mm2ft (d:float<mm>) = d * 0.0032808398950131<ft/mm>
+    mm2ft 4572.<mm>
+    ft2mm 8.<ft>
+
+//Создайте на основе кортежа логическую функцию «И». Используйте оператор сравнения с образцом match.
+module part7_num7 =
+    let (*) (x, y) =
+        match (x, y) with
+        | (true, true) -> true
+        | (_, _) -> false
+
+    (*)(true,false)
+
+//Создайте три записи о сотрудниках (Фамилия, Имя, Оклад, Возраст). Выведите фамилии сотрудников, чей возраст больше 50 лет.
+module part8_num7 = 
+    type empl = {fam:string; name:string; money:int; age:int}
+    let empl1 = {fam="Иванов"; name="Никифор"; money=50000; age=48}
+    let empl2 = {fam="Петров"; name="Иван"; money=55000; age=50}
+    let empl3 = {fam="Сидоров"; name="Трифон"; money=60000; age=52}
+    let print x = 
+        if x.age > 50 then
+            printf "%A" x.fam
+    print empl1
+    print empl2
+    print empl3
+            
 
 Console.ReadKey() |> ignore
 
